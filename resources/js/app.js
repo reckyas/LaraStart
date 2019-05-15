@@ -19,6 +19,10 @@ import VueProgressBar from 'vue-progressbar'
 import Swal from 'sweetalert2'
 window.Swal = Swal;
 
+// Gate
+import Gate from './Gate';
+Vue.prototype.$gate = new Gate(window.user);
+
 // Swal
 const Toast = Swal.mixin({
     toast: true,
@@ -86,6 +90,12 @@ Vue.component(
     'passport-personal-access-tokens',
     require('./components/passport/PersonalAccessTokens.vue').default
 );
+Vue.component(
+    'error-page',
+    require('./components/error404.vue').default
+);
+Vue.component('pagination', require('laravel-vue-pagination'));
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -96,5 +106,15 @@ window.Fire = new Vue();
 
 
 const app = new Vue({
-    router
+    router,
+    data: {
+        search: ''
+    },
+    methods: {
+        searchit: _.debounce(function () {
+            if (this.search !== '') {
+                Fire.$emit('searching');
+            }
+        }, 1000)
+    },
 }).$mount('#app')

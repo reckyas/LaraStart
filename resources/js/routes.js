@@ -46,5 +46,10 @@ export let routes = [{
         path: '/users',
         component: require('./components/Users.vue').default,
         meta: loading
+    },
+    {
+        path: '*',
+        component: require('./components/error404.vue').default,
+        meta: loading
     }
 ]

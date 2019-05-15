@@ -27,11 +27,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
       </li>
     </ul>
     <!-- SEARCH FORM -->
-    <form class="form-inline ml-3">
+    <form @submit.prevent class="form-inline ml-3">
       <div class="input-group input-group-sm">
-        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search" v-model="search" @keyup="searchit">
         <div class="input-group-append">
-          <button class="btn btn-navbar" type="submit">
+          <button class="btn btn-navbar" type="submit" @click="searchit">
             <i class="fa fa-search"></i>
           </button>
         </div>
@@ -93,6 +93,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </li>
             </ul>
           </li>
+          @can('isAdmin')
           <li class="nav-item">
             <router-link to="/developer" class="nav-link">
               <i class="nav-icon fw fas fa-cogs"></i>
@@ -101,6 +102,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </p>
             </router-link>
           </li>
+          @endcan
           <li class="nav-item">
             <router-link to="/profile" class="nav-link">
               <i class="nav-icon fw fas fa-user"></i>
@@ -175,6 +177,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 <!-- REQUIRED SCRIPTS -->
 
+@auth
+    <script>
+      window.user = @json(auth()->user())
+    </script>
+@endauth
 <script src="/js/app.js"></script>
 </body>
 </html>
